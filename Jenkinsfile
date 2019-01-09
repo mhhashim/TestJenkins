@@ -3,7 +3,7 @@
 BranchName = env.BRANCH_NAME
 String param_string_cron = BranchName == "develop" ? "H H(20-21) * * * %buildType=PSRA \nH H(21-22) * * * %buildType=TICS \n H H(22-23) * * * %GenerateAPIDocs=true" : ""
 
-def MailRecipient = 'DL_CDP2_Callisto@philips.com'
+def MailRecipient = 'mhhashim@gmail.com'
 def LogLevel = env.Verbose
 
 pipeline {
@@ -35,9 +35,9 @@ pipeline {
 
             steps {
                echo "------------------Intializing----------------"
-               echo "$BranchName"
-               echo "$LogLevel"
-               echo "$param_string_cron"
+               echo "Branch:$BranchName"
+               echo "Loglevel:$LogLevel"
+               echo "ParamString:$param_string_cron"
                sh 'which xcodebuild'
                sh 'xcodebuild -version'
                echo "------------------Intializing----------------"
@@ -67,6 +67,11 @@ pipeline {
             steps {
                sh 'ls'
             }
+        }
+    }
+    post {
+        always{
+            step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
         }
     }
 }
