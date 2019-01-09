@@ -7,11 +7,12 @@ def MailRecipient = 'DL_CDP2_Callisto@philips.com'
 def LogLevel = env.Verbose
 
 pipeline {
-     agent {
-        node {
-            label 'xcode && 10.0'
-        }
-    }
+    //  agent {
+    //     node {
+    //         label 'xcode && 10.0'
+    //     }
+    // }
+    agent any
     parameters {
         booleanParam(name: 'RemoveWorkspace', defaultValue: false, description: 'Remove Workspace')
         booleanParam(name: 'Verbose', defaultValue: false, description: 'Verbose logging')
