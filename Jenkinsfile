@@ -3,10 +3,13 @@ pipeline {
 
     stages {
 
-         stage ('IOntialize Stage') {
+         stage ('Intialize Stage') {
 
             steps {
-               sh 'pwd'
+               echo "------------------Intializing----------------"
+               sh 'which xcodebuild'
+               sh 'xcodebuild -version'
+               echo "------------------Intializing----------------"
             }
         }
         stage ('Compile Stage') {
