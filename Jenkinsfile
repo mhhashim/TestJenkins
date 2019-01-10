@@ -17,6 +17,7 @@ pipeline {
         booleanParam(name: 'RemoveWorkspace', defaultValue: false, description: 'Remove Workspace')
         booleanParam(name: 'Verbose', defaultValue: false, description: 'Verbose logging')
         booleanParam(name: 'GenerateAPIDocs', defaultValue: false, description: 'Generate API Documentation')
+        choice(choices: 'Normal\nHockyApp\nTICS', description: 'What type of build to build?', name: 'buildType')
     }
     triggers {
         parameterizedCron(param_string_cron)
@@ -58,8 +59,8 @@ pipeline {
                 }
                 InitialiseBuild()
                 //updatePods("Source",LogLevel)
+                }
             }
-        }
         stage ('Zip Components') {
 
             steps {
@@ -68,7 +69,7 @@ pipeline {
         }
 
 
-        stage('Build and Unit Tests') {
+     stage('Build and Unit Tests') {
             steps {
                 script {
                     runTestsWith(true, "TestJenkins", "TestJenkins")
@@ -114,8 +115,11 @@ def InitialiseBuild() {
     if (params.buildType == 'TICS') {
         currentBuild.displayName = "${env.BUILD_NUMBER}-TICS"
     }
-    if (params.buildType == 'PSRA') {
-        currentBuild.displayName = "${env.BUILD_NUMBER}-PSRA"
+    if (params.buildType == 'HockyApp') {
+        currentBuild.displayName = "${env.BUILD_NUMBER}-HockyApp"
+    }
+     if (params.buildType == 'Normal') {
+        currentBuild.displayName = "${env.BUILD_NUMBER}-Normal"
     }
 
     echo currentBuild.displayName
