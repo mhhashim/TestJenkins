@@ -153,7 +153,9 @@ def runTestsWith(Boolean isWorkspace, String testSchemeName, String frameworkNam
         xcodebuild test \
                 -project ${"TestJenkins.xcodeproj"} \
                 -scheme ${testSchemeName} CLANG_WARN_DOCUMENTATION_COMMENTS='NO'\
-                -destination \'platform=iOS Simulator,name=iPhone 8,OS=latest\' 
+                -destination \'platform=iOS Simulator,name=iPhone 8,OS=latest\' \
+                -resultBundlePath ${resultBundlePath} \
+                | xcpretty --report junit --report html
                
 
       
