@@ -51,11 +51,11 @@ pipeline {
                     } else {
                         echo "Skipping Workspace removal and Removing results and ipa files from path"
                         sh "pwd"
-                        sh "rm -rf Source/results/*"
-                        sh "rm -rf Source/build/*.ipa"
+                        sh "rm -rf TestJenkins/results/*"
+                        sh "rm -rf TestJenkins/build/*.ipa"
                     }
                     sh "rm -rf ~/Library/Developer/Xcode/DerivedData"
-                    sh "rm -rf Source/DerivedData"
+                    sh "rm -rf TestJenkins/DerivedData"
                 }
                 InitialiseBuild()
                 //updatePods("Source",LogLevel)
@@ -163,7 +163,7 @@ def runTestsWith(Boolean isWorkspace, String testSchemeName, String frameworkNam
 
     echo testScript
     sh testScript
-
+junit allowEmptyResults: false, testResults: "TestJenkins/build/reports/junit.xml"
  
 }
 
